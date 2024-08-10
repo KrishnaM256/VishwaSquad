@@ -49,7 +49,6 @@ function getEventId(responseBody) {
   }
 }
 
-// Function to make a request to get event details by eventId
 async function getEventDetails(eventId) {
   try {
     const response = await axios.get(`https://api.ambeedata.com/disasters/by-eventId`, {
