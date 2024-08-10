@@ -1,22 +1,9 @@
-<<<<<<< HEAD
 import React from 'react';
 import Navbar from '../Navbar/Navbar';
 import './HomePage.css'; 
 import Weather from './Weather';
 import Alert from './Alerts';
 /* homepage */
-=======
-
-
-import React from 'react'
-import Navbar from '../Navbar/Navbar'
-import './HomePage.css'
-import Weather from './Weather'
-import Alert from './Alerts'
-import Map from './Map'
-
-
->>>>>>> ceb016e5e7132b24de4d19a2942690adc2199707
 const HomePage = () => {
   return (
     <>
