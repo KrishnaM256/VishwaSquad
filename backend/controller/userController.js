@@ -21,11 +21,11 @@ const registerUser = asyncHandler(async (req, res) => {
     !state ||
     !password
   ) {
-    return res.status(500).json(new ApiError(500, 'All fields are mandatory'))
+    return res.status(500).json({ message: 'All Fields are mandatory' })
   }
   const oldUser = await User.findOne({ email })
   if (oldUser) {
-    return res.status(500).json(new ApiError(500, 'User already exist'))
+    return res.status(500).json({ message: 'All Fields are mandatory' })
   }
   const hashPassword = await bcrypt.hash(password, 10)
   const newUser = await User.create({ ...req.body, password: hashPassword })
