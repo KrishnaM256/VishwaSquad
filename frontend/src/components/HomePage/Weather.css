@@ -1,55 +1,26 @@
-.weather{
-    place-self:center;
-    padding: 30px;
-    border-radius: 10px;
-    background-image: linear-gradient(45deg, #2f4680, #500ae4 );
-    display: flex;
-    flex-direction: column;
+.weather {
     align-items: center;
-}
-.weather:hover {
-    background-color: #00bfff; /* Bright blue on hover */
-    color: black; /* Change text color on hover for better contrast */
+    justify-content:center;
+    padding: 20px 40px;
+    background-color: #7F00FF; /* Optional: Light background color for contrast */
+    border-radius: 8px;
+    width: fit-content;
   }
-.weather-icon{
-    width: 150px;
-    margin: 30px 0;
-}
-.temperature{
-    color: #fff;
-    font-size: 80px;
-    line-height:1;
-
-}
-.location{
-    color: #fff;
-    font-size: 40px;
-}
-.weather-data{
-    width: 100%;
-    margin-top: 40px;
-    color:#fff;
-    display:flex;
-    justify-content: space-between;
-}
-.weather-data .col{
-    display:flex;
-    align-items:flex-start;
-    gap:12px;
-    font-size: 22px;
-}
-.weather-data .col span{
-    display:block;
-    font-size: 16px;
-}
-.weather-data .col img{
-    width: 26px;
-    margin-top:10px;
-}
-p{
-    color:#fff;
-}
-strong {
-    color: #00bfff;
+  
+  .current-weather {
+    font-family: Inter, sans-serif;
+  }
+  
+  .current-weather p {
+    margin: 5px 0;
+  }
+  
+  .label {
+    color: white;
+    font-weight: bold;/* Color for labels */
+  }
+  
+  .data {
+    color: white; /* Color for data */
   }
   
