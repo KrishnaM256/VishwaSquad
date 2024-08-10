@@ -6,6 +6,7 @@ import Register from './components/authentication/Register'
 import DisasterDetail from './components/DisasterDetail'
 import Navbar from './components/Navbar/Navbar'
 import TrainingPage from './components/TrainingPage'
+import Quiz from './components/Quiz'
 
 
 import Login from './components/authentication/Login'
@@ -21,7 +22,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/training" element={<TrainingPage />} />
         <Route path="/disaster/:id" element={<DisasterDetail />} />
-
+        <Route path="/quiz" element={<Quiz />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
       </Routes>
