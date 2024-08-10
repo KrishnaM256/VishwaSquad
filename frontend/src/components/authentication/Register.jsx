@@ -1,12 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './sign.css'
 import { indianStates, indianCities } from '../../data'
 import { FaPlus } from 'react-icons/fa6'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { registerUser } from '../../slices/userSlice'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const Register = () => {
   const dispatch = useDispatch()
+
+  const { userInfo, error, success } = useSelector((state) => state.user)
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -20,6 +24,14 @@ const Register = () => {
     password: '',
   })
 
+  useEffect(() => {
+    if (error) {
+      toast.error(error)
+    }
+    if (success) {
+      toast.success(success)
+    }
+  }, [error, success])
   const addField = () => {
     setFormData({
       ...formData,
