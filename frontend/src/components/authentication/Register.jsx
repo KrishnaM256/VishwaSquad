@@ -6,11 +6,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { registerUser } from '../../slices/userSlice'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { clearErrors,clearSuccess } from '../../slices/userSlice'
 
 const Register = () => {
+    
   const dispatch = useDispatch()
 
-  const { userInfo, error, success } = useSelector((state) => state.user)
+  const {  error, success } = useSelector((state) => state.user)
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -23,13 +25,15 @@ const Register = () => {
     state: '',
     password: '',
   })
-
   useEffect(() => {
     if (error) {
       toast.error(error)
+      dispatch(clearErrors())
     }
     if (success) {
       toast.success(success)
+      dispatch(clearSuccess())
+
     }
   }, [error, success])
   const addField = () => {
