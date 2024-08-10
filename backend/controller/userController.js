@@ -1,19 +1,21 @@
 const asyncHandler = require('../utils/asyncHandler')
-
+const User = require('../models/userModel')
 // register user
 
-export const registerUser = asyncHandler(async (req, res) => {
+const registerUser = asyncHandler(async (req, res) => {
   res.status(200).json({ message: 'Register user' })
 })
 
 // login user
 
-export const loginUser = asyncHandler(async (req, res) => {
+const loginUser = asyncHandler(async (req, res) => {
   res.status(200).json({ message: 'Login user' })
 })
 
 // update user profile
 
-export const updateUserProfile = asyncHandler(async (req, res) => {
+const updateUserProfile = asyncHandler(async (req, res) => {
   res.status(200).json({ message: 'update user' })
 })
+
+module.exports = { registerUser, loginUser, updateUserProfile }
