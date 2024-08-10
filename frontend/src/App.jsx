@@ -7,14 +7,11 @@ import DisasterDetail from './components/DisasterDetail'
 import Navbar from './components/Navbar/Navbar'
 import TrainingPage from './components/TrainingPage'
 
-=======
+
 import Login from './components/authentication/Login'
 import ForgotPassword from './components/authentication/ForgotPassword'
-<<<<<<< HEAD
 import ResetPassword from './components/authentication/resetPassword'
-=======
->>>>>>> ceb016e5e7132b24de4d19a2942690adc2199707
->>>>>>> f8bd992fccd4cea7dd1aeb82e438486190b05e69
+
 function App() {
   return (
     <BrowserRouter>
@@ -24,10 +21,9 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/training" element={<TrainingPage />} />
         <Route path="/disaster/:id" element={<DisasterDetail />} />
-=======
+
         <Route path="/login" element={<Login />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
->>>>>>> ceb016e5e7132b24de4d19a2942690adc2199707
       </Routes>
     </BrowserRouter>
   )
