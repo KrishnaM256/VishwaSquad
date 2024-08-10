@@ -1,8 +1,8 @@
 const express = require('express')
 const dotenv = require('dotenv').config()
-
+const connectDb = require('./connectDB/connectDB.js')
 const app = express()
-
+connectDb()
 const port = process.env.PORT || 3001
 
 app.use('/api/users', require('./routes/userRoutes'))
