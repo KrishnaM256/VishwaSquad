@@ -10,20 +10,15 @@ const geoApiKey = '4808dbf310f0498db0945a715075b440';
 async function getGeoLocation() {
   try {
     const response = await axios.get('https://api.ipgeolocation.io/ipgeo', {
-      params: {
-        apiKey: geoApiKey
-      }
+      params: { apiKey: geoApiKey }
     });
     return {
       latitude: response.data.latitude,
       longitude: response.data.longitude
     };
   } catch (error) {
-    console.error('Failed to get geolocation:', error);
-    return {
-      latitude: null,
-      longitude: null
-    };
+    console.error('Failed to get geolocation:', error.message);
+    throw new Error('Failed to get geolocation');
   }
 }
 
@@ -34,26 +29,25 @@ function getEventId(responseBody) {
     if (formattedBody.result && formattedBody.result.length > 0) {
       return formattedBody.result[0].event_id;
     } else {
-      console.log('No event found.');
-      return null;
+      throw new Error('No event found');
     }
   } catch (error) {
-    console.error('Failed to parse JSON:', error);
-    return null;
+    console.error('Failed to parse JSON:', error.message);
+    throw new Error('Failed to parse event ID');
   }
 }
 
 // Function to get event details
 async function getEventDetails(eventId) {
   try {
-    const response = await axios.get(`https://api.ambeedata.com/disasters/by-eventId`, {
+    const response = await axios.get('https://api.ambeedata.com/disasters/by-eventId', {
       params: { eventId },
       headers: { 'x-api-key': apiKey, 'Content-type': 'application/json' }
     });
     return response.data;
   } catch (error) {
-    console.error('Failed to retrieve event details:', error);
-    return { error: 'Failed to retrieve event details' };
+    console.error('Failed to retrieve event details:', error.message);
+    throw new Error('Failed to retrieve event details');
   }
 }
 
@@ -61,10 +55,10 @@ async function getEventDetails(eventId) {
 router.get('/alerts', async (req, res) => {
   try {
     const location = await getGeoLocation();
+    console.log('Location:', location);
+    
     if (location.latitude && location.longitude) {
-      const apiResponse = await axios({
-        method: 'GET',
-        url: 'https://api.ambeedata.com/disasters/latest/by-lat-lng',
+      const apiResponse = await axios.get('https://api.ambeedata.com/disasters/latest/by-lat-lng', {
         params: {
           lat: location.latitude,
           lng: location.longitude,
@@ -77,9 +71,12 @@ router.get('/alerts', async (req, res) => {
         }
       });
 
+      console.log('API Response:', apiResponse.data);
+      
       const eventId = getEventId(apiResponse);
       if (eventId) {
         const eventDetails = await getEventDetails(eventId);
+        console.log('Event Details:', eventDetails);
         res.json(eventDetails);
       } else {
         res.status(404).json({ error: 'Event not found' });
@@ -88,8 +85,8 @@ router.get('/alerts', async (req, res) => {
       res.status(404).json({ error: 'Unable to get geolocation' });
     }
   } catch (error) {
-    console.error('Error during alert request:', error);
-    res.status(500).json({ error: 'Failed to retrieve alert data' });
+    console.error('Error during alert request:', error.message);
+    res.status(500).json({ error: error.message });
   }
 });
 

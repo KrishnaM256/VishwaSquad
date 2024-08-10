@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const ALERT_API_URL = "http://localhost:3001/api/alerts";
+const ALERT_API_URL = "http://localhost:3000/api/alerts";
 
 const Alert = () => {
   const [alertData, setAlertData] = useState(null);

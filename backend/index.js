@@ -4,7 +4,7 @@ const axios = require('axios');
 const dotenv = require('dotenv').config();
 const connectDb = require('./connectDB/connectDB.js');
 const cookieParser = require('cookie-parser');
-const alertRoutes = require('./routes/alertRoutes');
+
 // Initialize Express app
 const app = express();
 const port = process.env.PORT ;
@@ -62,7 +62,7 @@ app.get('/weather', async (req, res) => {
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/authority', require('./routes/authorityRoutes'));
 app.use('/api/disaster', require('./routes/disasterRoutes'));
-app.use('/api/alerts', alertRoutes);
+app.use('/api/alerts', require('./routes/alertRoutes'));
 
 // Error handling for uncaught exceptions and unhandled rejections
 process.on('uncaughtException', (err) => {
