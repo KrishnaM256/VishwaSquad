@@ -1,13 +1,31 @@
+<<<<<<< HEAD
 import React from 'react';
 import Navbar from '../Navbar/Navbar';
 import './HomePage.css'; 
 import Weather from './Weather';
 import Alert from './Alerts';
 /* homepage */
+=======
+
+
+import React from 'react'
+import Navbar from '../Navbar/Navbar'
+import './HomePage.css'
+import Weather from './Weather'
+import Alert from './Alerts'
+import Map from './Map'
+
+
+>>>>>>> ceb016e5e7132b24de4d19a2942690adc2199707
 const HomePage = () => {
   return (
     <>
       <Navbar />
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
       <div className="relative h-screen w-full">
         <div
           className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]"
@@ -18,6 +36,10 @@ const HomePage = () => {
           <div>
             <Weather />
             <Alert />
+            <div>
+            <Map />
+            </div>
+            <br></br>
           </div>
         </div>
       </div>

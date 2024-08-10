@@ -1,7 +1,6 @@
-// Weather.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./Weather.css"; // Ensure you have relevant CSS for styling
+import "./Weather.css"; 
 
 const WEATHER_API_URL = "http://localhost:3000/weather"; // URL to your backend API
 
@@ -64,27 +63,27 @@ const Weather = () => {
     <div className="weather">
       {weatherData ? (
         <div>
-            <lord-icon
+          <lord-icon
             src="https://cdn.lordicon.com/kkudtejl.json"
             trigger="hover"
           ></lord-icon>
           <div className="current-weather">
-          <p>
-            <strong>Location:</strong> {weatherData.name}
-          </p>
-          <p>
-            <strong>Temperature:</strong> {weatherData.main.temp}°C
-          </p>
-          <p>
-            <strong>Weather:</strong> {weatherData.weather[0].description}
-          </p>
-          <p>
-            <strong>Humidity:</strong> {weatherData.main.humidity}%
-          </p>
-          <p>
-            <strong>Wind Speed:</strong> {weatherData.wind.speed} Km/h
-          </p>
-        </div>
+            <p>
+              <span className="label">Location:</span> <span className="data">{weatherData.name}</span>
+            </p>
+            <p>
+              <span className="label">Temperature:</span> <span className="data">{weatherData.main.temp}°C</span>
+            </p>
+            <p>
+              <span className="label">Weather:</span> <span className="data">{weatherData.weather[0].description}</span>
+            </p>
+            <p>
+              <span className="label">Humidity:</span> <span className="data">{weatherData.main.humidity}%</span>
+            </p>
+            <p>
+              <span className="label">Wind Speed:</span> <span className="data">{weatherData.wind.speed} Km/h</span>
+            </p>
+          </div>
         </div>
       ) : (
         <p>No weather data available.</p>
