@@ -1,17 +1,11 @@
-<<<<<<< HEAD
-import React from 'react';
-import Navbar from '../Navbar/Navbar';
-import './HomePage.css'; 
-import Weather from './Weather';
-import Alert from './Alerts';
-/* homepage */
-=======
+
+
 import React from 'react'
 import Navbar from '../Navbar/Navbar'
 import './HomePage.css'
 import Weather from './Weather'
 import Alert from './Alerts'
->>>>>>> 8df35dfa454f3c5b73343df482da5d350e523a61
+
 const HomePage = () => {
   return (
     <>
