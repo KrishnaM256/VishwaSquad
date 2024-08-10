@@ -2,8 +2,12 @@ import React, { useState } from 'react'
 import './sign.css'
 import { indianStates, indianCities } from '../../data'
 import { FaPlus } from 'react-icons/fa6'
+import { useDispatch } from 'react-redux'
+import { registerUser } from '../../slices/userSlice'
 
 const Register = () => {
+  const dispatch = useDispatch()
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -26,12 +30,17 @@ const Register = () => {
     })
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    dispatch(registerUser(formData))
+  }
+
   const handleChange = (e) => {
-    const { name, value, dataset } = e.target
-    const index = parseInt(dataset.index)
+    const { name, value } = e.target
 
     if (name === 'emergencyContacts') {
       const { field } = e.target.dataset
+      const index = parseInt(e.target.dataset.index, 10)
       const updatedContacts = [...formData.emergencyContacts]
       updatedContacts[index] = { ...updatedContacts[index], [field]: value }
       setFormData({
@@ -48,7 +57,7 @@ const Register = () => {
 
   return (
     <div className="containerForm">
-      <form action="" className="form">
+      <form onSubmit={handleSubmit} className="form">
         <div className="containerForIps">
           <div className="ipContainer" style={{ marginRight: '1rem' }}>
             <label htmlFor="firstName">First Name:</label>
@@ -90,12 +99,8 @@ const Register = () => {
           </div>
         </div>
         {formData.emergencyContacts.map((contact, index) => (
-          <div className="containerForIps">
-            <div
-              key={index}
-              className="ipContainer"
-              style={{ marginRight: '1rem' }}
-            >
+          <div className="containerForIps" key={`emergency-${index}`}>
+            <div className="ipContainer" style={{ marginRight: '1rem' }}>
               <label htmlFor={`emergencyContactsPhone${index}`}>
                 Emergency Phone {index + 1}:
               </label>
@@ -108,11 +113,7 @@ const Register = () => {
                 onChange={handleChange}
               />
             </div>
-            <div
-              key={index}
-              className="ipContainer"
-              style={{ marginRight: '1rem' }}
-            >
+            <div className="ipContainer" style={{ marginRight: '1rem' }}>
               <label htmlFor={`emergencyContactsEmail${index}`}>
                 Emergency Email {index + 1}:
               </label>
@@ -125,13 +126,13 @@ const Register = () => {
                 onChange={handleChange}
               />
             </div>
-            <div key={index} style={{ marginTop: '2rem' }}>
-              {index === formData.emergencyContacts.length - 1 && (
+            {index === formData.emergencyContacts.length - 1 && (
+              <div key={`plus-${index}`} style={{ marginTop: '2rem' }}>
                 <button type="button" className="plus" onClick={addField}>
                   <FaPlus />
                 </button>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         ))}
         <div className="ipContainer">
@@ -152,8 +153,9 @@ const Register = () => {
               value={formData.city}
               onChange={handleChange}
             >
+              <option value="">Select a city</option>
               {indianCities.map((city, i) => (
-                <option key={i} value={city}>
+                <option key={`city-${i}`} value={city}>
                   {city}
                 </option>
               ))}
@@ -167,8 +169,9 @@ const Register = () => {
               value={formData.state}
               onChange={handleChange}
             >
+              <option value="">Select a state</option>
               {indianStates.map((state, i) => (
-                <option key={i} value={state}>
+                <option key={`state-${i}`} value={state}>
                   {state}
                 </option>
               ))}

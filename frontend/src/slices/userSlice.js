@@ -1,11 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import api from '../components/api/api'
 
-const registerUser = createAsyncThunk('/users/registerUser', async (data) => {
-  const response = await api.post('/users/registerUser', data)
-  console.log(response)
-  return response.data.data
-})
+export const registerUser = createAsyncThunk(
+  '/users/registerUser',
+  async (data) => {
+    console.log(data)
+
+    const response = await api.post('/users/registerUser', data)
+    console.log(response)
+    return response.data.data
+  }
+)
 
 const userSlice = createSlice({
   name: 'user',
