@@ -40,11 +40,9 @@ const userSchema = mongoose.Schema(
       {
         phone: {
           type: String,
-          required: [true, 'Please enter emergency contact phone number'],
         },
         email: {
           type: String,
-          required: [true, 'Please enter an emergency contact email address'],
           match: [
             /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
             'Please enter a valid email address',

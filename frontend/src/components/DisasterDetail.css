@@ -1,0 +1,85 @@
+/* src/components/DisasterDetail.css */
+
+.container {
+    max-width: 900px;
+    margin: 0 auto; /* Center the container */
+    padding: 20px;
+}
+
+.card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.card-img-top {
+    border-radius: 8px 8px 0 0;
+    height: 300px; /* Fixed height for consistency */
+    object-fit: cover; /* Ensure image covers the area */
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #007bff; /* Blue underline for emphasis */
+    padding-bottom: 10px;
+}
+
+.card-text {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    border: 1px solid #ddd; /* Light border around each detail section */
+    border-radius: 4px;
+    padding: 15px;
+    background-color: #f9f9f9; /* Light background for better readability */
+}
+
+.card-text h4 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.video-container {
+    position: relative;
+    max-width: auto; /* Fixed width for the video container */
+    height: auto; /* Height will adjust based on aspect ratio */
+    margin: 20px auto; /* Center the video container */
+    border-radius: 8px;
+    border: 1px solid #ddd; /* Border around video container */
+}
+
+.video-container iframe {
+    width: 800px; /* Full width of the container */
+    height: 450px; /* Full height of the container */
+    border: 0; /* Remove iframe border */
+    
+}
+
+@media (max-width: 768px) {
+    .card-body {
+        padding: 15px;
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+    }
+
+    .card-text {
+        font-size: 0.9rem;
+    }
+
+    .card-text h4 {
+        font-size: 1.1rem;
+    }
+
+    .video-container {
+        margin: 15px auto; /* Reduced margin for smaller screens */
+    }
+}

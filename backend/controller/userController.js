@@ -21,11 +21,13 @@ const registerUser = asyncHandler(async (req, res) => {
     !state ||
     !password
   ) {
-    return res.status(500).json({ message: 'All Fields are mandatory' })
+    return res
+      .status(500)
+      .json(new ApiResponse(500, {}, 'All fields are mandatory'))
   }
   const oldUser = await User.findOne({ email })
   if (oldUser) {
-    return res.status(500).json({ message: 'All Fields are mandatory' })
+    return res.status(500).json(new ApiResponse(500, {}, 'User already exist'))
   }
   const hashPassword = await bcrypt.hash(password, 10)
   const newUser = await User.create({ ...req.body, password: hashPassword })
@@ -47,7 +49,9 @@ const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body
 
   if (!email || !password) {
-    return res.status(400).send({ message: 'All fields are mandatory' })
+    return res
+      .status(400)
+      .send(new ApiResponse(400, {}, 'All fields are mandatory'))
   }
   const user = await User.findOne({ email })
   if (user && (await bcrypt.compare(password, user.password))) {
@@ -70,7 +74,7 @@ const loginUser = asyncHandler(async (req, res) => {
 const logoutUser = asyncHandler(async (req, res) => {
   const { token } = req.cookies
   if (!token) {
-    return res.status(400).send({ message: 'Please login' })
+    return res.status(400).send(new ApiResponse(404, {}, 'Please login'))
   }
   res.cookie('token', null, { httpOnly: true, expires: new Date(Date.now()) })
   res.status(200).json(new ApiResponse(200, {}, 'Log out successfully!'))
@@ -94,21 +98,19 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
   await user.save({ validateBeforeSave: false })
 
-  const resetURL = `${req.protocol}://${req.get(
-    'host'
-  )}/password/reset/${resetToken}`
+  const resetURL = `${req.protocol}://${5173}/password/reset/${resetToken}`
   const subject = 'Password Reset Request'
   const message = `Dear ${user.firstName},\n\nWe received a request to reset your password. You can reset your password by clicking the link below:\n\n${resetURL}\n\nIf you did not request a password reset, please disregard this email.\n\nThank you,\nSahaya`
 
   try {
     await sendMail({ email, subject, message })
-    res.status(200).json(new ApiResponse(200, {}, 'Email sent successfully!'))
+    res.status(200).json({ message: 'Email sent successfully!' })
   } catch (e) {
     console.log(e)
     user.resetPasswordExpire = undefined
     user.resetPasswordToken = undefined
     await user.save({ validateBeforeSave: false })
-    res.status(400).json(new ApiResponse(400, {}, 'Failed to send mail'))
+    res.status(400).json({ message: 'Failed to send mail' })
   }
 })
 

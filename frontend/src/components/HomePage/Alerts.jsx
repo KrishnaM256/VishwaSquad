@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import "./Alerts.css";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import './Alerts.css'; // Make sure this file exists and contains your styles
 
 const Alerts = () => {
   const [alertData, setAlertData] = useState(null);
@@ -10,19 +10,19 @@ const Alerts = () => {
   useEffect(() => {
     const fetchAlerts = async (latitude, longitude) => {
       try {
-        const response = await axios.get("http://localhost:3000/api/alerts", {
+        const response = await axios.get('http://localhost:3000/api/alerts', {
           params: { lat: latitude, lon: longitude },
         });
         console.log('API Response:', response.data);
         if (response.data && response.data.result) {
           setAlertData(response.data);
         } else {
-          setError("No valid data received from the server.");
+          setError('No valid data received from the server.');
         }
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching alert data:", error.message);
-        setError("Failed to fetch alerts: " + error.message);
+      } catch (err) {
+        console.error('Error fetching alert data:', err.message);
+        setError('Failed to fetch alerts: ' + err.message);
+      } finally {
         setLoading(false);
       }
     };
@@ -32,17 +32,17 @@ const Alerts = () => {
         navigator.geolocation.getCurrentPosition(
           async (position) => {
             const { latitude, longitude } = position.coords;
-            console.log(`Received Latitude: ${latitude} Longitude: ${longitude}`);
+            console.log(`Received Latitude: ${latitude}, Longitude: ${longitude}`);
             await fetchAlerts(latitude, longitude);
           },
-          (error) => {
-            console.error("Error getting geolocation:", error.message);
-            setError("Failed to get geolocation: " + error.message);
+          (err) => {
+            console.error('Error getting geolocation:', err.message);
+            setError('Failed to get geolocation: ' + err.message);
             setLoading(false);
           }
         );
       } else {
-        setError("Geolocation is not supported by this browser.");
+        setError('Geolocation is not supported by this browser.');
         setLoading(false);
       }
     };
@@ -51,15 +51,15 @@ const Alerts = () => {
   }, []);
 
   if (loading) {
-    return <p className="text-gray-500">Loading...</p>;
+    return <p className="text-gray-500 text-center">Loading...</p>;
   }
 
   if (error) {
-    return <div className="text-red-500">{error}</div>;
+    return <div className="text-red-500 text-center">{error}</div>;
   }
 
   return (
-    <div className="p-4">
+    <div className="p-4 max-w-lg mx-auto bg-white shadow-md rounded-lg">
       {alertData && alertData.result && alertData.result.length > 0 ? (
         <div className="space-y-4">
           <h2 className="text-2xl font-bold text-red-600">Disaster Alerts</h2>
@@ -77,7 +77,7 @@ const Alerts = () => {
           ))}
         </div>
       ) : (
-        <p className="text-gray-500">No alerts available.</p>
+        <p className="text-gray-500 text-center">No alerts available.</p>
       )}
     </div>
   );
