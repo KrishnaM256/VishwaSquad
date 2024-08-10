@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { loginUser } from '../../slices/userSlice'
+import { forgotPassword, loginUser } from '../../slices/userSlice'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -11,7 +11,6 @@ const ForgotPassword = () => {
 
   const [formData, setFormData] = useState({
     email: '',
-    password: '',
   })
 
   useEffect(() => {
@@ -25,7 +24,7 @@ const ForgotPassword = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    dispatch(loginUser(formData))
+    dispatch(forgotPassword(formData))
   }
 
   const handleChange = (e) => {

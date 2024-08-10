@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { loginUser } from '../../slices/userSlice'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { Link } from 'react-router-dom'
 
 const Login = () => {
   const dispatch = useDispatch()
@@ -62,6 +63,8 @@ const Login = () => {
           Sign in
         </button>
       </form>
+      <Link to={'/register'}>New User?</Link>
+      <Link to={'/forgotPassword'}>Forgot Password?</Link>
     </div>
   )
 }

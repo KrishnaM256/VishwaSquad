@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { forgotPassword, loginUser } from '../../slices/userSlice'
+import { resetPassword } from '../../slices/userSlice'
+import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import { useParams } from 'react-router-dom'
 
-const ForgotPassword = () => {
+const ResetPassword = () => {
+  const [password, setPassword] = useState('')
   const dispatch = useDispatch()
+  const { status, error, success } = useSelector((state) => state.user)
+  const { token } = useParams()
 
-  const { error, success } = useSelector((state) => state.user)
-
-  const [formData, setFormData] = useState({
-    password: '',
-  })
+  const handleResetPassword = () => {
+    dispatch(resetPassword({ token, password }))
+  }
 
   useEffect(() => {
     if (error) {
@@ -22,36 +23,19 @@ const ForgotPassword = () => {
     }
   }, [error, success])
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    dispatch(forgotPassword(formData))
-  }
-
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData({
-      ...formData,
-      [name]: value,
-    })
-  }
   return (
-    <div className="containerForm">
-      <form onSubmit={handleSubmit} className="form">
-        <div className="ipContainer">
-          <label htmlFor="email">Email:</label>
-          <input
-            type="text"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-        </div>
-        <button type="submit" className="submit">
-          Send Email
-        </button>
-      </form>
+    <div>
+      <input
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="Enter your new password"
+      />
+      <button onClick={handleResetPassword}>
+        {status === 'loading' ? 'Resetting...' : 'Reset Password'}
+      </button>
     </div>
   )
 }
 
-export default ForgotPassword
+export default ResetPassword
