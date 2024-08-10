@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-import Navbar from '../Navbar/Navbar';
-import './HomePage.css'; 
-import Weather from './Weather';
-import Alert from './Alerts';
-/* homepage */
-=======
 import React from 'react'
 import Navbar from '../Navbar/Navbar'
 import './HomePage.css'

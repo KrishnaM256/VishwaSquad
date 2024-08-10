@@ -35,7 +35,7 @@ export const loginUser = createAsyncThunk(
 
 export const forgotPassword = createAsyncThunk(
   '/users/forgotPassword',
-  async (email, { rejectWithValue }) => {
+  async ({ email }, { rejectWithValue }) => {
     try {
       const response = await api.post('/users/forgotPassword', { email })
       console.log(response)
@@ -51,7 +51,20 @@ export const forgotPassword = createAsyncThunk(
 
 export const resetPassword = createAsyncThunk(
   '/users/resetPassword',
-  async(password)
+  async ({ token, password }, { rejectWithValue }) => {
+    try {
+      const response = await api.post(`/users/resetPassword/${token}`, {
+        password,
+      })
+      console.log(response)
+      return { message: 'Password reset successful!' }
+    } catch (err) {
+      console.log('err.response.data')
+      return rejectWithValue({
+        message: err.response?.data?.message || 'Failed to reset password.',
+      })
+    }
+  }
 )
 
 const userSlice = createSlice({
@@ -113,6 +126,23 @@ const userSlice = createSlice({
         state.error = null
       })
       .addCase(forgotPassword.rejected, (state, action) => {
+        state.status = 'failed'
+        console.log(action)
+        state.error = action.payload.message
+        state.success = null
+      })
+      .addCase(resetPassword.pending, (state) => {
+        state.status = 'loading'
+        state.error = null
+        state.success = null
+      })
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        state.status = 'succeeded'
+        console.log(action)
+        state.success = action.payload.message
+        state.error = null
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
         state.status = 'failed'
         console.log(action)
         state.error = action.payload.message
