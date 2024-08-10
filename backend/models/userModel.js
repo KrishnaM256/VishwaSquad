@@ -60,6 +60,23 @@ const userSchema = mongoose.Schema(
       type: String,
       default: 'user',
     },
+    locations: [
+      {
+        type: {
+          type: String,
+          enum: ['Point'],
+          required: true,
+        },
+        coordinates: {
+          type: [Number],
+          required: true,
+        },
+        timestamp: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
     resetPasswordToken: String,
     resetPasswordExpire: Date,
   },
@@ -67,6 +84,9 @@ const userSchema = mongoose.Schema(
     timestamps: true,
   }
 )
+
+// Indexing for location-based queries
+userSchema.index({ location: '2dsphere' })
 
 userSchema.methods.getResetPasswordToken = function () {
   const resetToken = crypto.randomBytes(20).toString('hex')

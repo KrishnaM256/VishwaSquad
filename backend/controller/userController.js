@@ -169,6 +169,38 @@ const updateProfile = asyncHandler(async (req, res) => {
   res.status(200).send({ message: 'Successfully updated profile' })
 })
 
+const trackUserLocation = asyncHandler(async (req, res) => {
+  try {
+    const { latitude, longitude } = req.body
+
+    if (!latitude || !longitude) {
+      return res
+        .status(400)
+        .json({ message: 'Latitude and longitude are required' })
+    }
+
+    const user = await User.findById(req.user.id)
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' })
+    }
+
+    user.locations.push({
+      type: 'Point',
+      coordinates: [longitude, latitude],
+    })
+
+    await user.save()
+
+    res.status(200).json({
+      message: 'Location updated successfully',
+      latestLocation: user.locations[user.locations.length - 1],
+    })
+  } catch (error) {
+    console.error('Error updating location:', error)
+    res.status(500).json({ message: 'Server error' })
+  }
+})
 module.exports = {
   registerUser,
   loginUser,
@@ -178,4 +210,5 @@ module.exports = {
   resetPassword,
   getAllUsers,
   updateProfile,
+  trackUserLocation,
 }
