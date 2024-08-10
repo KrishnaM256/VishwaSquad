@@ -5,6 +5,8 @@ const app = express()
 connectDb()
 const port = process.env.PORT || 3001
 
+app.use(express.json())
+
 app.use('/api/users', require('./routes/userRoutes'))
 app.use('/api/authority', require('./routes/authorityRoutes'))
 app.use('/api/disaster', require('./routes/disasterRoutes'))
