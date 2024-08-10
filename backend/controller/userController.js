@@ -4,6 +4,8 @@ const { ApiError } = require('../utils/ApiError')
 const { ApiResponse } = require('../utils/ApiResponse')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const sendMail = require('../utils/sendMail')
+
 // register user
 
 const registerUser = asyncHandler(async (req, res) => {
@@ -87,27 +89,84 @@ const forgotPassword = asyncHandler(async (req, res) => {
   if (!user) {
     return res.status(404).json({ message: 'User does not exist' })
   }
+
   const resetToken = user.getResetPasswordToken()
+
   await user.save({ validateBeforeSave: false })
+
   const resetURL = `${req.protocol}://${req.get(
     'host'
   )}/password/reset/${resetToken}`
   const subject = 'Password Reset Request'
   const message = `Dear ${user.firstName},\n\nWe received a request to reset your password. You can reset your password by clicking the link below:\n\n${resetURL}\n\nIf you did not request a password reset, please disregard this email.\n\nThank you,\nSahaya`
+
   try {
-    sendMail({ email, subject, message })
+    await sendMail({ email, subject, message })
     res.status(200).json(new ApiResponse(200, {}, 'Email sent successfully!'))
   } catch (e) {
+    console.log(e)
     user.resetPasswordExpire = undefined
     user.resetPasswordToken = undefined
-    user.save({ validateBeforeSave: false })
-    res.status(400).json(new ApiResponse(200, {}, 'Failed to send mail'))
+    await user.save({ validateBeforeSave: false })
+    res.status(400).json(new ApiResponse(400, {}, 'Failed to send mail'))
   }
 })
+
 // update user profile
 
 const updateUserProfile = asyncHandler(async (req, res) => {
   res.status(200).json({ message: 'update user' })
+})
+
+const resetPassword = asyncHandler(async (req, res) => {
+  const resetToken = crypto
+    .createHash('sha256')
+    .update(req.params.token)
+    .digest('hex')
+  const user = await User.findOne({
+    resetPasswordToken: resetToken,
+    resetPasswordExpire: { $gt: Date.now() },
+  })
+  if (!user) {
+    return res
+      .status(404)
+      .send({ message: 'Reset password token has been expired or not valid' })
+  }
+  const { password } = req.body
+  const hashPassword = await bcrypt.hash(password, 10)
+  user.password = hashPassword
+  user.resetPasswordToken = undefined
+  user.resetPasswordToken = undefined
+  await user.save()
+  res.status(200).send({ message: 'Successfully changed the password' })
+})
+
+const getAllUsers = asyncHandler(async (req, res) => {
+  const users = await User.find()
+  if (!users) {
+    return res.status(404).send({ message: 'No user Found' })
+  }
+  res.status(200).send(users)
+})
+
+const getUser = asyncHandler(async (req, res) => {
+  const id = req.params.id
+  const user = await User.findById(id)
+  if (!user) {
+    return res.status(404).send({ message: 'User not found' })
+  }
+  res.status(200).send(user)
+})
+
+const updateProfile = asyncHandler(async (req, res) => {
+  const user = await User.findByIdAndUpdate(
+    req.user.id,
+    { ...req.body },
+    {
+      new: true,
+    }
+  )
+  res.status(200).send({ message: 'Successfully updated profile' })
 })
 
 module.exports = {
@@ -116,4 +175,7 @@ module.exports = {
   updateUserProfile,
   logoutUser,
   forgotPassword,
+  resetPassword,
+  getAllUsers,
+  updateProfile,
 }
