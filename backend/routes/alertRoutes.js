@@ -2,11 +2,11 @@ const express = require('express');
 const axios = require('axios');
 const router = express.Router();
 
-// API keys
+
 const apiKey = 'ed9a6be03f6231b9527b9078a72026806e0a4b8aba5ed6595aed5c3f23fa51be';
 const geoApiKey = '4808dbf310f0498db0945a715075b440';
 
-// Function to get current latitude and longitude based on IP address
+
 async function getGeoLocation() {
   try {
     const response = await axios.get('https://api.ipgeolocation.io/ipgeo', {
