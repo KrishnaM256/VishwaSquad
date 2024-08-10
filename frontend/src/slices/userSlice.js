@@ -4,12 +4,15 @@ import api from '../components/api/api'
 export const registerUser = createAsyncThunk(
   '/users/registerUser',
   async (data) => {
-    console.log(data)
-
     const response = await api.post('/users/registerUser', data)
     console.log(response)
     return response.data.data
   }
+)
+
+export const loginUser = createAsyncThunk(
+  '/users/loginUser',
+  async (data) => {}
 )
 
 const userSlice = createSlice({

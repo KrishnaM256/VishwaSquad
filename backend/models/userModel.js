@@ -12,7 +12,7 @@ const userSchema = mongoose.Schema(
       required: [true, 'Please enter last name'],
     },
     phone: {
-      type: Number,
+      type: String,
       required: [true, 'Please enter phone number'],
     },
     email: {
@@ -38,18 +38,18 @@ const userSchema = mongoose.Schema(
     },
     emergencyContacts: [
       {
-        type: Number,
-        required: [true, 'Please enter emergency contact phone number'],
-      },
-    ],
-    emergencyEmails: [
-      {
-        type: String,
-        required: [true, 'Please enter an emergency contact email address'],
-        match: [
-          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
-          'Please enter a valid email address',
-        ],
+        phone: {
+          type: String,
+          required: [true, 'Please enter emergency contact phone number'],
+        },
+        email: {
+          type: String,
+          required: [true, 'Please enter an emergency contact email address'],
+          match: [
+            /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+            'Please enter a valid email address',
+          ],
+        },
       },
     ],
     password: {
@@ -85,8 +85,7 @@ const userSchema = mongoose.Schema(
   }
 )
 
-// Indexing for location-based queries
-userSchema.index({ location: '2dsphere' })
+userSchema.index({ locations: '2dsphere' })
 
 userSchema.methods.getResetPasswordToken = function () {
   const resetToken = crypto.randomBytes(20).toString('hex')
