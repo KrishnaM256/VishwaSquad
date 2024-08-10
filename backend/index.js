@@ -62,8 +62,8 @@ app.get('/weather', async (req, res) => {
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/authority', require('./routes/authorityRoutes'));
 app.use('/api/disaster', require('./routes/disasterRoutes'));
-app.use('/api/alerts', require('./routes/alertRoutes'));
-
+const alertRoutes = require('./routes/alertRoutes'); // Adjust path as needed
+app.use('/api/alerts', alertRoutes);
 // Error handling for uncaught exceptions and unhandled rejections
 process.on('uncaughtException', (err) => {
   console.log(`Error: ${err}`);
