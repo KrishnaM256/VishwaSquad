@@ -10,6 +10,7 @@ import Login from './components/authentication/Login'
 import ForgotPassword from './components/authentication/ForgotPassword'
 import ResetPassword from './components/authentication/resetPassword'
 import Quiz from './components/Quiz'
+import EmergencyNo from './components/HomePage/EmergencyNo'
 function App() {
   return (
     <BrowserRouter>
@@ -23,6 +24,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/password/reset/:token" element={<ResetPassword />} />
+        <Route path="/emergencyNo" element={<EmergencyNo />} />
       </Routes>
     </BrowserRouter>
   )
