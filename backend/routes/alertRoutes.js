@@ -2,7 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const router = express.Router();
 
-const apiKey = '2494bd8e9fe47e59f49b2ce23494ff5e20eeb1e1e72f6d5f1447cd55355bf53f'; 
+const apiKey = 'a1866a2933be8505a460760170ca2d9a7de58bba46546faaa02c98e6bdc84011'; 
 
 // Helper function to get event ID
 function getEventId(responseBody) {
