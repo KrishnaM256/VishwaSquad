@@ -3,26 +3,33 @@
 .container {
     max-width: 900px;
     margin: 0 auto; /* Center the container */
-    padding: 20px;
+    padding: 100px;
 }
 
+/* Card Styles */
 .card {
     border: none;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    padding-left: 2%;
+    padding-right: 2%;
 }
 
+/* Card Image Styles */
 .card-img-top {
-    border-radius: 8px 8px 0 0;
+    border-radius: 8px 8px 8px 8px;
     height: 300px; /* Fixed height for consistency */
+    width: 100%;
     object-fit: cover; /* Ensure image covers the area */
 }
 
+/* Card Body Styles */
 .card-body {
     padding: 20px;
 }
 
+/* Card Title Styles */
 .card-title {
     font-size: 2rem;
     font-weight: bold;
@@ -31,6 +38,7 @@
     padding-bottom: 10px;
 }
 
+/* Card Text Styles */
 .card-text {
     font-size: 1rem;
     margin-bottom: 20px;
@@ -46,22 +54,25 @@
     margin-bottom: 10px;
 }
 
+/* Video Container Styles */
 .video-container {
     position: relative;
-    max-width: auto; /* Fixed width for the video container */
+    width: 100%; /* Full width of the parent container */
+    max-width: 800px; /* Max width to maintain aspect ratio */
     height: auto; /* Height will adjust based on aspect ratio */
     margin: 20px auto; /* Center the video container */
     border-radius: 8px;
     border: 1px solid #ddd; /* Border around video container */
+    overflow: hidden; /* Ensure content does not overflow */
 }
 
 .video-container iframe {
-    width: 800px; /* Full width of the container */
-    height: 450px; /* Full height of the container */
+    width: 100%; /* Full width of the container */
+    height: 450px; /* Fixed height for consistency */
     border: 0; /* Remove iframe border */
-    
 }
 
+/* Responsive Styles */
 @media (max-width: 768px) {
     .card-body {
         padding: 15px;
@@ -81,5 +92,9 @@
 
     .video-container {
         margin: 15px auto; /* Reduced margin for smaller screens */
+    }
+
+    .video-container iframe {
+        height: 250px; /* Adjust height for smaller screens */
     }
 }

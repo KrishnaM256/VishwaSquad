@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import axios from 'axios';
-import { FaCrosshairs } from 'react-icons/fa'; // Use FaCrosshairs or another similar icon
+import { FaMapPin } from 'react-icons/fa'; // Import pin icon
 
 // Your Mapbox access token
 mapboxgl.accessToken = 'pk.eyJ1Ijoib21rYXItMjQ4MyIsImEiOiJjbHppZ2IyZHgwZzhvMmpxeHo2bjF0Nm9jIn0.EzGTTY88dJ7CbVo4KMKKig';
@@ -80,11 +80,14 @@ const Map = () => {
     }
   };
 
-  // Function to center the map on the user's location
-  const centerMapOnLocation = () => {
-    if (map.current && location.latitude && location.longitude) {
-      map.current.setCenter([location.longitude, location.latitude]);
-      map.current.setZoom(12);
+  // Function to focus on the user's location
+  const focusOnLocation = () => {
+    if (map.current && location.latitude !== null && location.longitude !== null) {
+      map.current.flyTo({
+        center: [location.longitude, location.latitude],
+        zoom: 12,
+        essential: true // This animation is considered essential for accessibility
+      });
     }
   };
 
@@ -99,23 +102,27 @@ const Map = () => {
   }, [location]); // Run whenever location changes
 
   return (
-    <div style={{ position: 'relative', width: '70vw', height: '70vh' }}>
-      <div ref={mapContainer} style={{ width: '100%', height: '100%' }} />
-      <button
-        onClick={centerMapOnLocation}
+    <div style={{ position: 'relative', borderRadius: '12px', overflow: 'hidden' }}>
+      <div ref={mapContainer} style={{ width: '70vw', height: '70vh' }} />
+      <button 
+        onClick={focusOnLocation} 
         style={{
-          position: 'absolute',
-          bottom: '20px',
-          right: '20px',
-          backgroundColor: 'white',
-          border: 'none',
+          position: 'absolute', 
+          bottom: '10px', 
+          right: '10px', 
+          padding: '10px', 
+          backgroundColor: '#007bff', 
+          color: 'white', 
+          border: 'none', 
           borderRadius: '50%',
-          boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
-          padding: '10px',
           cursor: 'pointer',
+          zIndex: 1, // Ensure the button is above other elements
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
         }}
       >
-        <FaCrosshairs size={24} color="blue" />
+        <FaMapPin style={{ fontSize: '24px' }} />
       </button>
     </div>
   );

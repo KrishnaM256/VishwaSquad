@@ -2,15 +2,21 @@ const express = require('express');
 const axios = require('axios');
 const router = express.Router();
 
-const apiKey = 'ed9a6be03f6231b9527b9078a72026806e0a4b8aba5ed6595aed5c3f23fa51be';
+const apiKey = '2494bd8e9fe47e59f49b2ce23494ff5e20eeb1e1e72f6d5f1447cd55355bf53f'; 
 
+// Helper function to get event ID
 function getEventId(responseBody) {
   try {
     const formattedBody = responseBody.data;
     if (formattedBody && formattedBody.result && formattedBody.result.length > 0) {
-      return formattedBody.result[0].event_id;
+      const eventId = formattedBody.result[0]?.event_id;
+      if (eventId) {
+        return eventId;
+      } else {
+        throw new Error('Event ID is undefined');
+      }
     } else {
-      throw new Error('No event found');
+      throw new Error('No events found in the response');
     }
   } catch (error) {
     console.error('Failed to parse event ID:', error.message);
@@ -18,6 +24,7 @@ function getEventId(responseBody) {
   }
 }
 
+// Helper function to get event details
 async function getEventDetails(eventId) {
   try {
     const response = await axios.get('https://api.ambeedata.com/disasters/by-eventId', {
@@ -35,6 +42,7 @@ async function getEventDetails(eventId) {
   }
 }
 
+// Route handler
 router.get('/', async (req, res) => {
   const latitude = req.query.lat;
   const longitude = req.query.lon;
@@ -67,8 +75,8 @@ router.get('/', async (req, res) => {
         res.status(404).json({ error: 'Event not found' });
       }
     } catch (error) {
-      console.error('Error during alert request:', error.response ? error.response.data : error.message);
-      res.status(500).json({ error: error.response ? error.response.data : error.message });
+      console.error('Error during alert request:', error.message);
+      res.status(500).json({ error: error.message });
     }
   } else {
     res.status(400).json({ error: 'Latitude and Longitude are required' });
