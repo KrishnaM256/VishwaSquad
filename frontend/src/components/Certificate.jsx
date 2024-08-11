@@ -15,16 +15,19 @@ const Certificate = ({ name, score, total }) => {
     };
 
     return (
-        <div>
-            <div id="certificate" style={{ padding: '20px', border: '1px solid #ccc', textAlign: 'center' }}>
+        <div className="certificate-container">
+            <div id="certificate" className="certificate">
                 <h1>Certificate of Achievement</h1>
                 <p>This certifies that</p>
                 <h2>{name}</h2>
                 <p>has successfully passed the disaster management quiz with a score of</p>
                 <h3>{score} / {total}</h3>
                 <p>Congratulations on your achievement!</p>
+                <footer>
+                    <p>Issued by SAHAYA</p>
+                </footer>
             </div>
-            <button onClick={generatePDF}>Download Certificate</button>
+            <button onClick={generatePDF} className="download-button">Download Certificate</button>
         </div>
     );
 };
