@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet'; // Import Helmet
 import Navbar from '../Navbar/Navbar';
 import './HomePage.css'; 
 import Weather from './Weather';
@@ -28,6 +29,15 @@ const HomePage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Home | Sahaya</title>
+        <meta name="description" content="Stay informed with Sahaya. Check weather updates, receive alerts, and locate nearby emergency services." />
+        <meta name="keywords" content="disaster preparedness, weather updates, emergency alerts, Sahaya" />
+        <meta property="og:title" content="Home | Sahaya" />
+        <meta property="og:description" content="Stay informed with Sahaya. Check weather updates, receive alerts, and locate nearby emergency services." />
+        <meta property="og:image" content="/assets/og-image.png" />
+        <meta property="og:url" content="https://www.sahaya.com/home" />
+      </Helmet>
       <Navbar />
       <div className="relative min-h-screen w-full flex flex-col">
         <video 

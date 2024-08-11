@@ -2,12 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import axios from 'axios';
-import { FaMapPin } from 'react-icons/fa'; // Import pin icon
+import { FaMapPin } from 'react-icons/fa'; 
 
-// Your Mapbox access token
 mapboxgl.accessToken = 'pk.eyJ1Ijoib21rYXItMjQ4MyIsImEiOiJjbHppZ2IyZHgwZzhvMmpxeHo2bjF0Nm9jIn0.EzGTTY88dJ7CbVo4KMKKig';
 
-// Mapbox API endpoint for nearby search
+
 const mapboxApiUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places';
 
 const Map = () => {
@@ -17,7 +16,7 @@ const Map = () => {
 
   // Function to initialize the map
   const initializeMap = () => {
-    if (map.current || location.latitude === null || location.longitude === null) return; // Initialize map only once
+    if (map.current || location.latitude === null || location.longitude === null) return; 
 
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
@@ -32,10 +31,8 @@ const Map = () => {
       .setPopup(new mapboxgl.Popup().setText('Your Location'))
       .addTo(map.current);
 
-    // Fetch and display nearby hospitals
     fetchNearbyPlaces(location.latitude, location.longitude);
 
-    // Add zoom control buttons
     map.current.addControl(new mapboxgl.NavigationControl());
   };
 
@@ -70,7 +67,7 @@ const Map = () => {
 
       places.forEach((place) => {
         // Add hospital markers with different color
-        new mapboxgl.Marker({ color: 'blue' }) // Change 'blue' to your desired color
+        new mapboxgl.Marker({ color: 'blue' }) 
           .setLngLat([place.geometry.coordinates[0], place.geometry.coordinates[1]])
           .setPopup(new mapboxgl.Popup().setText(place.text))
           .addTo(map.current);
@@ -86,7 +83,7 @@ const Map = () => {
       map.current.flyTo({
         center: [location.longitude, location.latitude],
         zoom: 12,
-        essential: true // This animation is considered essential for accessibility
+        essential: true 
       });
     }
   };
@@ -99,7 +96,7 @@ const Map = () => {
     if (location.latitude !== null && location.longitude !== null) {
       initializeMap(); // Initialize map when location is set
     }
-  }, [location]); // Run whenever location changes
+  }, [location]); 
 
   return (
     <div style={{ position: 'relative', borderRadius: '12px', overflow: 'hidden' }}>
@@ -116,7 +113,7 @@ const Map = () => {
           border: 'none', 
           borderRadius: '50%',
           cursor: 'pointer',
-          zIndex: 1, // Ensure the button is above other elements
+          zIndex: 1,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center'

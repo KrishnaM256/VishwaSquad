@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Helmet } from "react-helmet"; 
 import "./Weather.css"; 
 
-const WEATHER_API_URL = "http://localhost:3000/weather"; // URL to your backend API
+const WEATHER_API_URL = "http://localhost:3000/weather"; 
 
 const Weather = () => {
   const [weatherData, setWeatherData] = useState(null);
@@ -28,7 +29,6 @@ const Weather = () => {
       }
     };
 
-    // Function to get geolocation and fetch weather data
     const getGeolocationAndFetchWeather = () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -61,6 +61,15 @@ const Weather = () => {
 
   return (
     <div className="weather">
+      <Helmet>
+        <title>Weather Information - Your App</title>
+        <meta name="description" content="Get the latest weather information for your current location." />
+        <meta property="og:title" content="Weather Information" />
+        <meta property="og:description" content="Get the latest weather information for your current location." />
+        <meta property="og:image" content="URL_TO_DEFAULT_WEATHER_IMAGE" /> 
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:type" content="website" />
+      </Helmet>
       {weatherData ? (
         <div>
           <lord-icon
@@ -93,3 +102,4 @@ const Weather = () => {
 };
 
 export default Weather;
+
