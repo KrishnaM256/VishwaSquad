@@ -31,7 +31,7 @@ const HomePage = () => {
       <div className="weather"><Weather /></div>
       <div className="alert"><Alert /></div>
     </div>
-    <div>
+    <div className="border-radius">
       <Map />
     </div>
     <br></br>
