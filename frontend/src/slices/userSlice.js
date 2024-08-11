@@ -1,15 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import api from '../components/api/api'
-
 export const registerUser = createAsyncThunk(
   '/users/registerUser',
   async (data, { rejectWithValue }) => {
     try {
       const response = await api.post('/users/registerUser', data)
-      console.log(response)
+      const token = response.data.token // Assuming the token is returned in the response data
+      localStorage.setItem('token', token)
+      console.log(token)
+
       return { data: response.data, message: 'Registration successful!' }
     } catch (err) {
-      console.log('err.response.data')
       return rejectWithValue({
         message: err.response?.data?.message || 'Failed to register user.',
       })
@@ -22,10 +23,13 @@ export const loginUser = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await api.post('/users/loginUser', data)
-      console.log(response)
-      return { data: response.data, message: 'Login successful!' }
+      const { token, user } = response.data.data // Adjust based on your API response
+
+      // Store token in localStorage
+      localStorage.setItem('token', token)
+
+      return { user, message: 'Login successful!' }
     } catch (err) {
-      console.log('err.response.data')
       return rejectWithValue({
         message: err.response?.data?.message || 'Failed to login user.',
       })
@@ -67,6 +71,8 @@ export const resetPassword = createAsyncThunk(
   }
 )
 
+// Other thunks remain unchanged
+
 const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -92,14 +98,12 @@ const userSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.status = 'succeeded'
-        console.log(action)
         state.userInfo = action.payload.data
         state.success = action.payload.message
         state.error = null
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.status = 'failed'
-        console.log(action)
         state.error = action.payload.message
         state.success = null
       })
@@ -110,14 +114,12 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.status = 'succeeded'
-        console.log(action)
-        state.userInfo = action.payload.data
+        state.userInfo = action.payload.user
         state.success = action.payload.message
         state.error = null
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.status = 'failed'
-        console.log(action)
         state.error = action.payload.message
         state.success = null
       })
@@ -128,13 +130,11 @@ const userSlice = createSlice({
       })
       .addCase(forgotPassword.fulfilled, (state, action) => {
         state.status = 'succeeded'
-        console.log(action)
         state.success = action.payload.message
         state.error = null
       })
       .addCase(forgotPassword.rejected, (state, action) => {
         state.status = 'failed'
-        console.log(action)
         state.error = action.payload.message
         state.success = null
       })
@@ -145,18 +145,16 @@ const userSlice = createSlice({
       })
       .addCase(resetPassword.fulfilled, (state, action) => {
         state.status = 'succeeded'
-        console.log(action)
         state.success = action.payload.message
         state.error = null
       })
       .addCase(resetPassword.rejected, (state, action) => {
         state.status = 'failed'
-        console.log(action)
         state.error = action.payload.message
         state.success = null
       })
   },
 })
 
-export const { clearErrors,clearSuccess } = userSlice.actions
+export const { clearErrors, clearSuccess } = userSlice.actions
 export default userSlice.reducer

@@ -6,13 +6,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { registerUser } from '../../slices/userSlice'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { clearErrors,clearSuccess } from '../../slices/userSlice'
+import { clearErrors, clearSuccess } from '../../slices/userSlice'
+import { useNavigate } from 'react-router'
 
 const Register = () => {
-    
+  const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const {  error, success } = useSelector((state) => state.user)
+  const { error, success } = useSelector((state) => state.user)
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -31,9 +32,9 @@ const Register = () => {
       dispatch(clearErrors())
     }
     if (success) {
+      navigate('/')
       toast.success(success)
       dispatch(clearSuccess())
-
     }
   }, [error, success])
   const addField = () => {

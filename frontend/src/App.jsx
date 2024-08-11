@@ -9,7 +9,7 @@ import TrainingPage from './components/TrainingPage'
 import Login from './components/authentication/Login'
 import ForgotPassword from './components/authentication/ForgotPassword'
 import ResetPassword from './components/authentication/resetPassword'
-
+import AddAlert from './components/Authority/AddAlert'
 function App() {
   return (
     <BrowserRouter>
@@ -21,8 +21,8 @@ function App() {
         <Route path="/disaster/:id" element={<DisasterDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
-        <Route path="//password/reset/:token" element={<ResetPassword />} />
-
+        <Route path="/password/reset/:token" element={<ResetPassword />} />
+        <Route path="/addAlert" element={<AddAlert />} />
       </Routes>
     </BrowserRouter>
   )

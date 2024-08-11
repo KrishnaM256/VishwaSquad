@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Alerts.css'; // Make sure this file exists and contains your styles
+import './Alerts.css'; 
 
 const Alerts = () => {
   const [alertData, setAlertData] = useState(null);
