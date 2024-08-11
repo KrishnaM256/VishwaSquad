@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import axios from 'axios';
+import { FaMapPin } from 'react-icons/fa'; // Import pin icon
 
 // Your Mapbox access token
 mapboxgl.accessToken = 'pk.eyJ1Ijoib21rYXItMjQ4MyIsImEiOiJjbHppZ2IyZHgwZzhvMmpxeHo2bjF0Nm9jIn0.EzGTTY88dJ7CbVo4KMKKig';
@@ -113,16 +114,18 @@ const Map = () => {
           backgroundColor: '#007bff', 
           color: 'white', 
           border: 'none', 
-          borderRadius: '5px',
+          borderRadius: '50%',
           cursor: 'pointer',
-          zIndex: 1 // Ensure the button is above other elements
+          zIndex: 1, // Ensure the button is above other elements
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
         }}
       >
-        Center on My Location
+        <FaMapPin style={{ fontSize: '24px' }} />
       </button>
     </div>
   );
 };
 
 export default Map;
-
