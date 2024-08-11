@@ -4,26 +4,29 @@ import { loginUser } from '../../slices/userSlice'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Link } from 'react-router-dom'
-
+import { clearErrors,clearSuccess } from '../../slices/userSlice'
+import { useNavigate } from 'react-router-dom'
 const Login = () => {
   const dispatch = useDispatch()
-
+const navigate = useNavigate()
   const { error, success } = useSelector((state) => state.user)
 
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   })
-
   useEffect(() => {
     if (error) {
       toast.error(error)
+      dispatch(clearErrors())
     }
     if (success) {
+      navigate('/')
       toast.success(success)
+      dispatch(clearSuccess())
+
     }
   }, [error, success])
-
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch(loginUser(formData))

@@ -75,7 +75,14 @@ const userSlice = createSlice({
     error: null,
     success: null,
   },
-  reducers: {},
+  reducers: {
+    clearErrors: (state) => {
+      state.error = null
+    },
+    clearSuccess: (state) => {
+      state.success = null
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state) => {
@@ -151,4 +158,5 @@ const userSlice = createSlice({
   },
 })
 
+export const { clearErrors,clearSuccess } = userSlice.actions
 export default userSlice.reducer
