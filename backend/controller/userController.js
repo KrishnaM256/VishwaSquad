@@ -7,10 +7,10 @@ const jwt = require('jsonwebtoken')
 const sendMail = require('../utils/sendMail')
 
 // register user
-
 const registerUser = asyncHandler(async (req, res) => {
   const { firstName, lastName, phone, email, address, city, state, password } =
     req.body
+
   if (
     !firstName ||
     !lastName ||
@@ -23,50 +23,68 @@ const registerUser = asyncHandler(async (req, res) => {
   ) {
     return res
       .status(500)
-      .json(new ApiResponse(500, {}, 'All fields are mandatory'))
+      .json(new ApiResponse(500, {}, '', 'All fields are mandatory'))
   }
+
   const oldUser = await User.findOne({ email })
   if (oldUser) {
-    return res.status(500).json(new ApiResponse(500, {}, 'User already exist'))
+    return res
+      .status(500)
+      .json(new ApiResponse(500, {}, '', 'User already exists'))
   }
+
   const hashPassword = await bcrypt.hash(password, 10)
   const newUser = await User.create({ ...req.body, password: hashPassword })
   const token = jwt.sign({ _id: newUser._id }, process.env.JWT_PRIVATEKEY, {
     expiresIn: '5d',
   })
+
   res.cookie('token', token, {
     httpOnly: true,
     expires: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000),
   })
+
   res
     .status(200)
-    .json(new ApiResponse(200, newUser, 'Registered successfully!'))
+    .json(
+      new ApiResponse(
+        200,
+        { user: newUser, token },
+        '',
+        'Registered successfully!'
+      )
+    )
 })
 
 // login user
-
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body
 
   if (!email || !password) {
     return res
       .status(400)
-      .send(new ApiResponse(400, {}, 'All fields are mandatory'))
+      .send(new ApiResponse(400, {}, '', 'All fields are mandatory'))
   }
+
   const user = await User.findOne({ email })
   if (user && (await bcrypt.compare(password, user.password))) {
     const token = jwt.sign({ _id: user._id }, process.env.JWT_PRIVATEKEY, {
       expiresIn: '5d',
     })
+
     res.cookie('token', token, {
       httpOnly: true,
       expires: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000),
     })
-    res.status(200).json(new ApiResponse(200, user, 'Login successfully!'))
-  } else
+
+    res
+      .status(200)
+      .json(new ApiResponse(200, { user, token }, '', 'Login successful!'))
+  } else {
     res
       .status(500)
-      .json(new ApiResponse(500, {}, 'Email or Password is invalid'))
+      .json(new ApiResponse(500, {}, '', 'Email or Password is invalid'))
+  }
 })
 
 //log out user

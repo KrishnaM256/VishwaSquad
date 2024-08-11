@@ -5,11 +5,14 @@ export const registerUser = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await api.post('/users/registerUser', data)
-      const token = response.data.token // Assuming the token is returned in the response data
+      const token = response.data.data.token // Access token here
       localStorage.setItem('token', token)
       console.log(token)
 
-      return { data: response.data, message: 'Registration successful!' }
+      return {
+        data: response.data.data.user,
+        message: 'Registration successful!',
+      } // Pass user data only
     } catch (err) {
       return rejectWithValue({
         message: err.response?.data?.message || 'Failed to register user.',
@@ -17,15 +20,13 @@ export const registerUser = createAsyncThunk(
     }
   }
 )
-
 export const loginUser = createAsyncThunk(
   '/users/loginUser',
   async (data, { rejectWithValue }) => {
     try {
       const response = await api.post('/users/loginUser', data)
-      const { token, user } = response.data.data // Adjust based on your API response
+      const { token, user } = response.data.data // Access token here
 
-      // Store token in localStorage
       localStorage.setItem('token', token)
 
       return { user, message: 'Login successful!' }
