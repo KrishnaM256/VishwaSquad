@@ -5,6 +5,7 @@
     background-color: #7F00FF; /* Optional: Light background color for contrast */
     border-radius: 8px;
     width: fit-content;
+    display:flex;
   }
   
   .current-weather {
