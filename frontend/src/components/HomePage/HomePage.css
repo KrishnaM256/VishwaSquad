@@ -1,0 +1,12 @@
+.window {
+    display: flex; /* Enable flexbox layout */
+    flex-direction: row; /* Align children side by side */
+    gap: 0.5rem; /* Optional: Add space between items */
+    padding: 1rem;
+    margin-top:200px; /* Optional: Add padding inside the container */
+  }
+  .border-radius {
+    border-radius: 12px; /* Adjust the value as needed */
+    overflow: hidden;    /* Ensures the content respects the border radius */
+  }
+  

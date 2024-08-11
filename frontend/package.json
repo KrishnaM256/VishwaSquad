@@ -15,8 +15,15 @@
     "bootstrap": "^5.3.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
+<<<<<<< HEAD
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
+=======
+    "express": "^4.19.2",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
+    "mapbox-gl": "^3.5.2",
+>>>>>>> 094928f2483d265414c4d7794a50188daf47608d
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.2.1",

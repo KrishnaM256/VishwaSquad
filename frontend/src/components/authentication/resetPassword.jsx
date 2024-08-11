@@ -1,39 +1,76 @@
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { resetPassword } from '../../slices/userSlice'
-import { useEffect, useState } from 'react'
+import { clearErrors, clearSuccess, resetPassword } from '../../slices/userSlice'
 import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { useParams } from 'react-router-dom'
 
 const ResetPassword = () => {
-  const [password, setPassword] = useState('')
   const dispatch = useDispatch()
-  const { status, error, success } = useSelector((state) => state.user)
-  const { token } = useParams()
+  const { token } = useParams() // Get the reset token from the URL
 
-  const handleResetPassword = () => {
-    dispatch(resetPassword({ token, password }))
-  }
+  const { error, success } = useSelector((state) => state.user)
+
+  const [formData, setFormData] = useState({
+    password: '',
+    confirmPassword: '',
+  })
 
   useEffect(() => {
     if (error) {
       toast.error(error)
+      dispatch(clearErrors())
     }
     if (success) {
       toast.success(success)
+      dispatch(clearSuccess())
     }
-  }, [error, success])
+  }, [error, success, dispatch])
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (formData.password !== formData.confirmPassword) {
+      toast.error("Passwords don't match!")
+      return
+    }
+    dispatch(resetPassword({ token, password: formData.password }))
+  }
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData({
+      ...formData,
+      [name]: value,
+    })
+  }
 
   return (
-    <div>
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Enter your new password"
-      />
-      <button onClick={handleResetPassword}>
-        {status === 'loading' ? 'Resetting...' : 'Reset Password'}
-      </button>
+    <div className="containerForm">
+      <form onSubmit={handleSubmit} className="form">
+        <div className="ipContainer">
+          <label htmlFor="password">New Password:</label>
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="ipContainer">
+          <label htmlFor="confirmPassword">Confirm Password:</label>
+          <input
+            type="password"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <button type="submit" className="submit">
+          Reset Password
+        </button>
+      </form>
     </div>
   )
 }
